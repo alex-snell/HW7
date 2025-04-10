@@ -103,28 +103,23 @@
      private void mergeDivisbleByKFirst(int arr[], int k, int left, int mid, int right) {
         int[] temp = new int[right - left + 1];
     
-    // Copy elements to temp array
     for (int i = 0; i < temp.length; i++) {
         temp[i] = arr[left + i];
     }
     
-    int i = 0;                 // Index for left subarray in temp
-    int j = mid - left + 1;    // Index for right subarray in temp
-    int merge = left;          // Current position in original array
+    int i = 0;                 
+    int j = mid - left + 1;    
+    int merge = left;         
     
-    // Merge with divisibility by k priority
     while (i <= mid - left && j < temp.length) {
         boolean leftDivisible = (temp[i] % k == 0);
         boolean rightDivisible = (temp[j] % k == 0);
         
         if (leftDivisible && !rightDivisible) {
-            // Left element is divisible by k, right is not
             arr[merge++] = temp[i++];
         } else if (!leftDivisible && rightDivisible) {
-            // Right element is divisible by k, left is not
             arr[merge++] = temp[j++];
         } else {
-            // Both are divisible or both are not divisible - normal comparison
             if (temp[i] <= temp[j]) {
                 arr[merge++] = temp[i++];
             } else {
@@ -132,13 +127,9 @@
             }
         }
     }
-    
-    // Copy remaining elements from left subarray
     while (i <= mid - left) {
         arr[merge++] = temp[i++];
     }
-    
-    // Copy remaining elements from right subarray
     while (j < temp.length) {
         arr[merge++] = temp[j++];
     }
