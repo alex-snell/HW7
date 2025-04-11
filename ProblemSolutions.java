@@ -100,40 +100,55 @@
       * The merging portion of the merge sort, divisible by k first
       */
  
-     private void mergeDivisbleByKFirst(int arr[], int k, int left, int mid, int right) {
-        int[] temp = new int[right - left + 1];
-    
-    for (int i = 0; i < temp.length; i++) {
-        temp[i] = arr[left + i];
-    }
-    
-    int i = 0;                 
-    int j = mid - left + 1;    
-    int merge = left;         
-    
-    while (i <= mid - left && j < temp.length) {
-        boolean leftDivisible = (temp[i] % k == 0);
-        boolean rightDivisible = (temp[j] % k == 0);
-        
-        if (leftDivisible && !rightDivisible) {
-            arr[merge++] = temp[i++];
-        } else if (!leftDivisible && rightDivisible) {
-            arr[merge++] = temp[j++];
-        } else {
-            if (temp[i] <= temp[j]) {
-                arr[merge++] = temp[i++];
-            } else {
-                arr[merge++] = temp[j++];
-            }
-        }
-    }
-    while (i <= mid - left) {
-        arr[merge++] = temp[i++];
-    }
-    while (j < temp.length) {
-        arr[merge++] = temp[j++];
-    }
-}
+    private void mergeDivisbleByKFirst(int arr[], int k, int left, int mid, int right) {
+         int[] temp = new int[right - left + 1];
+         int[] originalPos = new int[right - left + 1];
+         for (int i = 0; i < temp.length; i++) {
+             temp[i] = arr[left + i];
+             originalPos[i] = left + i;
+         }
+         int i = 0;
+         int j = mid - left + 1;
+         int m = left;
+         for (int p = 0; p < temp.length; p++) {
+             if (temp[p] % k == 0) {
+                 arr[m++] = temp[p];
+             }
+         }
+         i = 0;
+         j = mid - left + 1;
+
+         while (i <= mid - left && j < temp.length) {
+             if (temp[i] % k == 0) {
+                 i++;
+                 continue;
+             }
+             if (temp[j] % k == 0) {
+                 j++;
+                 continue;
+             }
+             if (temp[i] <= temp[j]) {
+                 arr[m++] = temp[i++];
+             } else {
+                 arr[m++] = temp[j++];
+             }
+         }
+
+         while (i <= mid - left) {
+             if (temp[i] % k != 0) {
+                 arr[m++] = temp[i];
+             }
+             i++;
+         }
+
+         while (j < temp.length) {
+             if (temp[j] % k != 0) {
+                 arr[m++] = temp[j];
+             }
+             j++;
+         }
+
+     }
      
  
  
